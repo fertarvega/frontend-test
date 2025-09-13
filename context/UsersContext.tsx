@@ -9,42 +9,83 @@ import React, {
   SetStateAction,
   useEffect,
 } from "react";
-import { ICompany, IUser } from "@/interfaces/types";
+import { ICompany, IPaginationUsers, IUser } from "@/interfaces/types";
 import { API_URL } from "@/helpers/consts";
 
 interface UsersContextProps {
   users: IUser[];
   setUsers: Dispatch<SetStateAction<IUser[]>>;
-  getUsers: (filters?: { email?: string; name?: string }) => Promise<void>;
+  getUsers: (filters: {
+    page: number;
+    rows: number;
+    email?: string;
+    name?: string;
+    company?: string;
+  }) => Promise<void>;
   companies: ICompany[];
+  paginationData: {
+    total: number;
+    page: number;
+    rows: number;
+    totalPages: number;
+  };
+  setPaginationData: Dispatch<
+    SetStateAction<{
+      total: number;
+      page: number;
+      rows: number;
+      totalPages: number;
+    }>
+  >;
 }
 
 const UsersContext = createContext<UsersContextProps | undefined>(undefined);
 
 export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [users, setUsers] = useState<IUser[]>([]);
+  const [paginationData, setPaginationData] = useState<{
+    total: number;
+    page: number;
+    rows: number;
+    totalPages: number;
+  }>({ total: 0, page: 1, rows: 10, totalPages: 0 });
   const [companies, setCompanies] = useState<ICompany[]>([]);
   const [flow, setFlow] = useState<"default" | "loading" | "error">("default");
   const [error, setError] = useState<string | null>(null);
 
   const getUsers = useCallback(
-    async (filters?: { email?: string; name?: string }) => {
+    async (filters: {
+      page: number;
+      rows: number;
+      email?: string;
+      name?: string;
+      company?: string;
+    }) => {
       try {
         let url = `${API_URL}/users`;
-        if (filters && (filters.email || filters.name)) {
+        if (filters) {
           const params = new URLSearchParams();
+          params.append("page", filters.page.toString());
+          params.append("rows", filters.rows.toString());
           if (filters.email) params.append("email", filters.email);
           if (filters.name) params.append("name", filters.name);
+          if (filters.company) params.append("company", filters.company);
           url += `?${params.toString()}`;
         }
         const res = await fetch(url, { cache: "no-store" });
-        const data = await res.json();
-        setUsers(data);
+        const data: IPaginationUsers = await res.json();
+        setUsers(data.users);
+        setPaginationData({
+          total: data.total,
+          page: data.page,
+          rows: data.rows,
+          totalPages: data.totalPages,
+        });
       } catch (error) {
         setUsers([]);
       }
     },
-    []
+    [paginationData]
   );
 
   const getCompanies = useCallback(async () => {
@@ -63,7 +104,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
     setFlow("loading");
     setError(null);
     try {
-      await Promise.all([getUsers(), getCompanies()]);
+      await Promise.all([getUsers({ page: 1, rows: 10 }), getCompanies()]);
       setFlow("default");
     } catch (error) {
       setFlow("error");
@@ -76,7 +117,16 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <UsersContext.Provider value={{ users, setUsers, getUsers, companies }}>
+    <UsersContext.Provider
+      value={{
+        users,
+        setUsers,
+        getUsers,
+        companies,
+        paginationData,
+        setPaginationData,
+      }}
+    >
       <div>
         {
           {

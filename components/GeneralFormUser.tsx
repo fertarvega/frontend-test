@@ -26,7 +26,7 @@ export default function GeneralFormUser({
     "default"
   );
   const [error, setError] = useState<string | null>(null);
-  const { getUsers, companies } = useUsers();
+  const { getUsers, companies, paginationData } = useUsers();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -93,7 +93,10 @@ export default function GeneralFormUser({
       } else {
         setFlow("success");
         if (type === "create") setForm(initialState);
-        await getUsers();
+        await getUsers({
+          page: 1,
+          rows: paginationData?.rows || 10,
+        });
       }
     } catch {
       setError("Error general al crear usuario");

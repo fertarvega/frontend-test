@@ -19,3 +19,17 @@ export interface IUser {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IPaginationUsers {
+  users: IUser[];
+  total: number;
+  page: number;
+  rows: number;
+  totalPages: number;
+}
+
+export interface IFilters {
+  email?: string;
+  name?: string;
+  company?: string;
+}
