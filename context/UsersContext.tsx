@@ -15,7 +15,7 @@ import { API_URL } from "@/helpers/consts";
 interface UsersContextProps {
   users: IUser[];
   setUsers: Dispatch<SetStateAction<IUser[]>>;
-  getUsers: () => Promise<void>;
+  getUsers: (filters?: { email?: string; name?: string }) => Promise<void>;
   companies: ICompany[];
 }
 
@@ -27,15 +27,25 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   const [flow, setFlow] = useState<"default" | "loading" | "error">("default");
   const [error, setError] = useState<string | null>(null);
 
-  const getUsers = useCallback(async () => {
-    try {
-      const res = await fetch(`${API_URL}/users`, { cache: "no-store" });
-      const data = await res.json();
-      setUsers(data);
-    } catch (error) {
-      setUsers([]);
-    }
-  }, []);
+  const getUsers = useCallback(
+    async (filters?: { email?: string; name?: string }) => {
+      try {
+        let url = `${API_URL}/users`;
+        if (filters && (filters.email || filters.name)) {
+          const params = new URLSearchParams();
+          if (filters.email) params.append("email", filters.email);
+          if (filters.name) params.append("name", filters.name);
+          url += `?${params.toString()}`;
+        }
+        const res = await fetch(url, { cache: "no-store" });
+        const data = await res.json();
+        setUsers(data);
+      } catch (error) {
+        setUsers([]);
+      }
+    },
+    []
+  );
 
   const getCompanies = useCallback(async () => {
     try {

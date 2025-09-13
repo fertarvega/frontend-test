@@ -38,10 +38,33 @@ export default function GeneralFormUser({
     }));
   };
 
+  const validateFrom = () => {
+    if (!form.email) return "El email es obligatorio";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email)) return "Email inválido";
+    if (!form.name || form.name.trim().length < 2)
+      return "El nombre debe tener al menos 2 caracteres";
+    if (!form.country || form.country.trim().length < 2)
+      return "El país es obligatorio";
+    if (!form.age || isNaN(form.age) || form.age < 1)
+      return "Edad debe ser mayor a 0";
+    if (!form.gender) return "Seleccione un género";
+    if (!/^[0-9]{7,}$/.test(form.phone))
+      return "Teléfono inválido (mínimo 7 dígitos numéricos)";
+    if (!form.companyId) return "Seleccione una compañía";
+    return null;
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setFlow("loading");
     setError(null);
+    const validationError = validateFrom();
+    if (validationError) {
+      setError(validationError);
+      setFlow("error");
+      return;
+    }
+    setFlow("loading");
 
     const payload = {
       email: form.email,
@@ -100,6 +123,7 @@ export default function GeneralFormUser({
           value={form.email}
           onChange={handleChange}
           required
+          type="email"
         />
       </div>
       <div>
@@ -147,6 +171,8 @@ export default function GeneralFormUser({
           value={form.phone}
           onChange={handleChange}
           required
+          type="tel"
+          minLength={7}
         />
       </div>
       <div>

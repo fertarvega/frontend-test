@@ -1,10 +1,10 @@
-import React from "react";
+import { ReactNode } from "react";
 import styles from "@/styles/modal.module.scss";
 
 interface ModalProps {
   open: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function Modal({ open, onClose, children }: ModalProps) {

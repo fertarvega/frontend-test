@@ -2,9 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import { IUser } from "@/interfaces/types";
 import { API_URL } from "@/helpers/consts";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const response = await fetch(`${API_URL}/users/`);
+    const { searchParams } = new URL(req.url);
+    
+    const email = searchParams.get("email");
+    const name = searchParams.get("name");
+
+    let url = `${API_URL}/users/`;
+    const params = new URLSearchParams();
+    if (email) params.append("email", email);
+    if (name) params.append("name", name);
+    if ([...params].length > 0) {
+      url += `?${params.toString()}`;
+    }
+
+    const response = await fetch(url);
     const users: IUser[] = await response.json();
 
     if (!response.ok) {
