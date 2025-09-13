@@ -1,0 +1,29 @@
+@use "./variables.scss";
+
+.message {
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  margin: 0.5rem 0 1rem 0;
+  padding: 0.7rem 1.2rem;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  color: #111;
+  display: inline-block;
+}
+
+.message-success {
+  border: 1.5px solid variables.$color-success;
+  background: rgba(11, 224, 153, 0.13);
+}
+.message-danger {
+  border: 1.5px solid variables.$color-danger;
+  background: rgba(239, 68, 68, 0.13);
+}
+.message-warning {
+  border: 1.5px solid variables.$color-warning;
+  background: rgba(251, 191, 36, 0.13);
+}
+.message-primary {
+  border: 1.5px solid variables.$color-primary;
+  background: rgba(37, 99, 235, 0.13);
+}

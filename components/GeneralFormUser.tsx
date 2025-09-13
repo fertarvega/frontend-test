@@ -3,6 +3,8 @@ import inputStyles from "@/styles/inputs.module.scss";
 import { useUsers } from "@/context/UsersContext";
 import { IUser } from "@/interfaces/types";
 import formStyles from "@/styles/form.module.scss";
+import Message from "./Message";
+import Spinner from "./Spinner";
 
 const initialState: Omit<IUser, "id" | "company" | "createdAt" | "updatedAt"> =
   {
@@ -59,13 +61,14 @@ export default function GeneralFormUser({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
+    setFlow("loading");
+
     const validationError = validateFrom();
     if (validationError) {
       setError(validationError);
       setFlow("error");
       return;
     }
-    setFlow("loading");
 
     const payload = {
       email: form.email,
@@ -100,122 +103,121 @@ export default function GeneralFormUser({
         });
       }
     } catch {
+      setFlow("error");
       setError("Error general al crear usuario");
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className={formStyles.form}>
-      <h3>Crear usuario</h3>
-      {
-        {
-          error: <div>{error}</div>,
-          success: (
-            <div>
-              {dataToEdit
-                ? "Usuario editado exitosamente"
-                : "Usuario creado exitosamente"}
-            </div>
-          ),
-          loading: <div>Cargando...</div>,
-          default: null,
-        }[flow]
-      }
-      <div className={formStyles["form-input"]}>
-        <label>Email:</label>
-        <input
-          className={inputStyles.input}
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-          type="email"
-        />
-      </div>
-      <div className={formStyles["form-input"]}>
-        <label>Nombre:</label>
-        <input
-          className={inputStyles.input}
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className={formStyles["form-input"]}>
-        <label>País:</label>
-        <input
-          className={inputStyles.input}
-          name="country"
-          value={form.country}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div className={formStyles["form-input"]}>
-        <label>Edad:</label>
-        <input
-          className={inputStyles.input}
-          name="age"
-          type="number"
-          value={form.age}
-          onChange={handleChange}
-          required
-          min={0}
-        />
-      </div>
-      <div className={formStyles["form-input"]}>
-        <label>Género:</label>
-        <select
-          className={inputStyles.select}
-          name="gender"
-          value={form.gender}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Seleccione género</option>
-          <option value="Hombre">Hombre</option>
-          <option value="Mujer">Mujer</option>
-          <option value="Otro">Otro</option>
-        </select>
-      </div>
-      <div className={formStyles["form-input"]}>
-        <label>Teléfono:</label>
-        <input
-          className={inputStyles.input}
-          name="phone"
-          value={form.phone}
-          onChange={handleChange}
-          required
-          type="tel"
-          minLength={7}
-        />
-      </div>
-      <div className={formStyles["form-input"]}>
-        <label>Compañía:</label>
-        <select
-          className={inputStyles.select}
-          name="companyId"
-          value={form.companyId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Seleccione una compañía</option>
-          {companies.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <button
-        type="submit"
-        className={`${inputStyles.btn} ${inputStyles["btn-success"]}`}
-        disabled={flow === "loading"}
-        style={{ float: "inline-end", marginTop: "16px" }}
-      >
-        Guardar
-      </button>
+      <h3>{type === "create" ? "Crear usuario" : "Editar usuario"}</h3>
+      {flow === "error" && error && <Message type="danger">{error}</Message>}
+      {flow === "success" && (
+        <Message type="success">
+          {dataToEdit
+            ? "Usuario editado exitosamente"
+            : "Usuario creado exitosamente"}
+        </Message>
+      )}
+      {flow === "loading" && <Spinner />}
+      {flow !== "loading" && (
+        <>
+          <div className={formStyles["form-input"]}>
+            <label>Email:</label>
+            <input
+              className={inputStyles.input}
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              required
+              type="email"
+            />
+          </div>
+          <div className={formStyles["form-input"]}>
+            <label>Nombre:</label>
+            <input
+              className={inputStyles.input}
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={formStyles["form-input"]}>
+            <label>País:</label>
+            <input
+              className={inputStyles.input}
+              name="country"
+              value={form.country}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className={formStyles["form-input"]}>
+            <label>Edad:</label>
+            <input
+              className={inputStyles.input}
+              name="age"
+              type="number"
+              value={form.age}
+              onChange={handleChange}
+              required
+              min={0}
+            />
+          </div>
+          <div className={formStyles["form-input"]}>
+            <label>Género:</label>
+            <select
+              className={inputStyles.select}
+              name="gender"
+              value={form.gender}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Seleccione género</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Femenino</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div className={formStyles["form-input"]}>
+            <label>Teléfono:</label>
+            <input
+              className={inputStyles.input}
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              required
+              type="tel"
+              minLength={7}
+            />
+          </div>
+          <div className={formStyles["form-input"]}>
+            <label>Compañía:</label>
+            <select
+              className={inputStyles.select}
+              name="companyId"
+              value={form.companyId}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Seleccione una compañía</option>
+              {companies.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="submit"
+            className={`${inputStyles.btn} ${inputStyles["btn-success"]}`}
+            style={{ float: "inline-end", marginTop: "16px" }}
+          >
+            Guardar
+          </button>
+        </>
+      )}
     </form>
   );
 }

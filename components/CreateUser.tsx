@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Modal from "@/components/Modal";
 import GeneralFormUser from "./GeneralFormUser";
@@ -16,8 +17,10 @@ export function CreateUser() {
       <button
         onClick={() => setIsOpen(true)}
         className={`${inputStyles.btn} ${inputStyles["btn-success"]}`}
+        style={{ display: "flex", alignItems: "center", gap: '8px' }}
       >
-        Crear usuario
+        Crear usuario{" "}
+        <Image width={16} height={16} src="/add.svg" alt="Editar" />
       </button>
     </section>
   );

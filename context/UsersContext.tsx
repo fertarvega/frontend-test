@@ -10,6 +10,8 @@ import React, {
   useEffect,
 } from "react";
 import { ICompany, IPaginationUsers, IUser } from "@/interfaces/types";
+import Message from "@/components/Message";
+import Spinner from "@/components/Spinner";
 
 interface UsersContextProps {
   users: IUser[];
@@ -36,6 +38,7 @@ interface UsersContextProps {
       totalPages: number;
     }>
   >;
+  flow: "default" | "loading" | "error";
 }
 
 const UsersContext = createContext<UsersContextProps | undefined>(undefined);
@@ -60,6 +63,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
       name?: string;
       company?: string;
     }) => {
+      setFlow("loading");
       try {
         let url = `/api/users`;
         if (filters) {
@@ -80,8 +84,14 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
           rows: data.rows,
           totalPages: data.totalPages,
         });
+        setFlow("default");
       } catch (error) {
         setUsers([]);
+        setFlow("error");
+
+        setError(
+          "Error al obtener datos, verifique su conexión e intente de nuevo."
+        );
       }
     },
     [paginationData]
@@ -96,6 +106,10 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
       if (data) setCompanies(data);
     } catch {
       setCompanies([]);
+      setFlow("error");
+      setError(
+        "Error al obtener datos, verifique su conexión e intente de nuevo."
+      );
     }
   }, []);
 
@@ -107,7 +121,9 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
       setFlow("default");
     } catch (error) {
       setFlow("error");
-      setError("Error al obtener datos");
+      setError(
+        "Error al obtener datos, verifique su conexión e intente de nuevo."
+      );
     }
   };
 
@@ -124,18 +140,12 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
         companies,
         paginationData,
         setPaginationData,
+        flow,
       }}
     >
-      <div>
-        {
-          {
-            error: error,
-            loading: "Cargando...",
-            default: null,
-          }[flow]
-        }
-      </div>
-      {flow !== "loading" && children}
+      {flow === "error" && error && <Message type="danger">{error}</Message>}
+      {/* {flow === "loading" && <Spinner />} */}
+      {children}
     </UsersContext.Provider>
   );
 };
