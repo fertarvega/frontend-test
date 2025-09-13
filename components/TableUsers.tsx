@@ -5,6 +5,8 @@ import { useUsers } from "@/context/UsersContext";
 import { UpdateUser } from "./UpdateUser";
 import { IFilters } from "@/interfaces/types";
 import FiltersTableUsers from "./FiltersTableUsers";
+import inputStyles from "@/styles/inputs.module.scss";
+import styles from "@/styles/table.module.scss";
 
 export default function TableUsers() {
   const { users, setUsers, getUsers, paginationData, setPaginationData } =
@@ -79,76 +81,90 @@ export default function TableUsers() {
   return (
     <>
       <FiltersTableUsers filters={filters} setFilters={setFilters} />
-      <table>
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Correo eléctronico</th>
-            <th>País</th>
-            <th>Compañia</th>
-            <th>Edad</th>
-            <th>Teléfono</th>
-            <th>Género</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.country}</td>
-              <td>{user.company ? user.company.name : "N/A"}</td>
-              <td>{user.age}</td>
-              <td>{user.phone}</td>
-              <td>{user.gender}</td>
-              <td>
-                <UpdateUser data={user} />
-                <button onClick={() => deleteUser(user.id)}>Borrar</button>
-              </td>
+      <div className={styles["table-container"]}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo eléctronico</th>
+              <th>País</th>
+              <th>Compañia</th>
+              <th>Edad</th>
+              <th>Teléfono</th>
+              <th>Género</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <div
-        style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16 }}
-      >
-        <button
-          type="button"
-          onClick={handlePrev}
-          disabled={paginationData.page === 1}
-        >
-          Anterior
-        </button>
-        <span>
-          Página {paginationData.page} de {paginationData.totalPages}
-        </span>
-        <button
-          type="button"
-          onClick={handleNext}
-          disabled={
-            !paginationData || !paginationData.total || !paginationData.rows
-              ? true
-              : paginationData.page === paginationData.totalPages ||
-                paginationData.page * paginationData.rows >=
-                  paginationData.total
-          }
-        >
-          Siguiente
-        </button>
-        <span style={{ marginLeft: 16 }}>
-          Total: {paginationData?.total || users.length} usuarios
-        </span>
-        <select
-          style={{ marginLeft: 8 }}
-          onChange={handleRowsChange}
-          value={paginationData.rows || 10}
-        >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="25">25</option>
-          <option value="50">50</option>
-        </select>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.country}</td>
+                <td>{user.company ? user.company.name : "N/A"}</td>
+                <td>{user.age}</td>
+                <td>{user.phone}</td>
+                <td>{user.gender}</td>
+                <td>
+                  <div className={styles["table-actions"]}>
+                    <UpdateUser data={user} />
+                    <button
+                      className={`${inputStyles.btn} ${inputStyles["btn-danger"]}`}
+                      onClick={() => deleteUser(user.id)}
+                    >
+                      Borrar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className={`${styles["table-footer-container"]}`}>
+        <div className={`${styles["table-footer-section"]}`}>
+          <button
+            type="button"
+            onClick={handlePrev}
+            disabled={paginationData.page === 1}
+            className={`${inputStyles.btn} ${inputStyles["btn-primary"]}`}
+          >
+            Anterior
+          </button>
+          <span>
+            Página {paginationData.page} de {paginationData.totalPages}
+          </span>
+          <button
+            type="button"
+            className={`${inputStyles.btn} ${inputStyles["btn-primary"]}`}
+            onClick={handleNext}
+            disabled={
+              !paginationData || !paginationData.total || !paginationData.rows
+                ? true
+                : paginationData.page === paginationData.totalPages ||
+                  paginationData.page * paginationData.rows >=
+                    paginationData.total
+            }
+          >
+            Siguiente
+          </button>
+        </div>
+        <div className={`${styles["table-footer-section"]}`}>
+          <span style={{ marginLeft: 16 }}>
+            Total: {paginationData?.total || users.length} usuarios
+          </span>
+          <select
+            style={{ marginLeft: 8 }}
+            onChange={handleRowsChange}
+            value={paginationData.rows || 10}
+            className={inputStyles.select}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+          </select>
+        </div>
       </div>
     </>
   );

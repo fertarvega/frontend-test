@@ -53,14 +53,12 @@ export function BarChartComponent({
   }, [users]);
 
   return (
-    <div>
-      <Suspense>
-        <BarChart
-          dataset={chartData}
-          xAxis={[{ dataKey: dataKeyName, tickPlacement, tickLabelPlacement }]}
-          {...chartSetting}
-        />
-      </Suspense>
-    </div>
+    <Suspense>
+      <BarChart
+        dataset={chartData}
+        xAxis={[{ dataKey: dataKeyName, tickPlacement, tickLabelPlacement }]}
+        {...chartSetting}
+      />
+    </Suspense>
   );
 }

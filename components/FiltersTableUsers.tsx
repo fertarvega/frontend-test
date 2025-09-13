@@ -1,12 +1,8 @@
 import { useUsers } from "@/context/UsersContext";
 import { IFilters } from "@/interfaces/types";
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useMemo,
-} from "react";
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
+import inputStyles from "@/styles/inputs.module.scss";
+import filterStyles from "@/styles/filters.module.scss";
 
 export default function FiltersTableUsers({
   filters,
@@ -15,7 +11,7 @@ export default function FiltersTableUsers({
   filters: IFilters;
   setFilters: Dispatch<SetStateAction<IFilters>>;
 }) {
-  const { users, getUsers, paginationData, companies } = useUsers();
+  const { getUsers, paginationData, companies } = useUsers();
 
   const handleFilterChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -36,13 +32,14 @@ export default function FiltersTableUsers({
   };
 
   return (
-    <form onSubmit={handleFilter} style={{ marginBottom: 16 }}>
+    <form onSubmit={handleFilter} className={filterStyles["filters-container"]}>
       <input
         type="text"
         name="name"
         placeholder="Fernando Tarango"
         value={filters.name}
         onChange={handleFilterChange}
+        className={inputStyles.input}
       />
       <input
         type="text"
@@ -50,11 +47,13 @@ export default function FiltersTableUsers({
         placeholder="fertar@gmail.com"
         value={filters.email}
         onChange={handleFilterChange}
+        className={inputStyles.input}
       />
       <select
         name="company"
         value={filters.company}
         onChange={handleFilterChange}
+        className={inputStyles.select}
       >
         <option value="">Todas las empresas</option>
         {companies.map((item) => (
@@ -63,7 +62,12 @@ export default function FiltersTableUsers({
           </option>
         ))}
       </select>
-      <button type="submit">Filtrar</button>
+      <button
+        type="submit"
+        className={`${inputStyles.btn} ${inputStyles["btn-primary"]}`}
+      >
+        Filtrar
+      </button>
     </form>
   );
 }

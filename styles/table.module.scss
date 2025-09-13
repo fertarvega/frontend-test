@@ -1,0 +1,88 @@
+@use "./variables.scss";
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  background: #f8fafc;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+}
+
+.table {
+  width: 100%;
+  background: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  overflow: hidden;
+  min-width: 700px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s;
+  border-collapse: collapse;
+
+  @media (max-width: 720px) {
+    .table {
+      min-width: 350px;
+      font-size: 0.8rem;
+    }
+    .table td {
+      padding: 0.4rem 0.8rem;
+    }
+    .table th {
+      padding: 0.8rem;
+    }
+  }
+
+  tr {
+    border-bottom: 1px solid variables.$border-color;
+    transition: background 0.18s;
+  }
+
+  th {
+    padding: 0.8rem 1.1rem;
+    text-align: left;
+    border: none;
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #22223b;
+    letter-spacing: 0.01em;
+  }
+
+  td {
+    padding: 0.5rem 1.1rem;
+    text-align: left;
+    border: none;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  tbody tr:hover {
+    background: #e0e7ef;
+    box-shadow: 0 2px 12px rgba(37, 99, 235, 0.07);
+  }
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.table-footer-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  @media (max-width: 720px) {
+    font-size: 14px;
+    flex-direction: column;
+  }
+
+  .table-footer-section {
+    display: flex;
+    gap: 8;
+    align-items: center;
+  }
+}

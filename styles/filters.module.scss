@@ -1,0 +1,11 @@
+.filters-container {
+  display: flex;
+  margin-bottom: 16px;
+  align-items: center;
+
+  @media (max-width: 720px) {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+}

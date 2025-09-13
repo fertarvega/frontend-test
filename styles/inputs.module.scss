@@ -1,0 +1,99 @@
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  margin: 0 4px;
+  min-width: 80px;
+  min-height: 34px;
+  font-family: "Roboto Mono", monospace;
+
+  @media (max-width: 720px) {
+    width: 100%;
+  }
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+.btn-warning {
+  background: #fbbf24;
+  color: white;
+}
+.btn-warning:hover {
+  background: #f59e1b;
+}
+
+.btn-success {
+  background: #0be099;
+  color: white;
+}
+.btn-success:hover {
+  background: #059669;
+}
+
+.input {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #f8fafc;
+  color: #22223b;
+  outline: none;
+  margin: 0 4px 0 0;
+  transition: border 0.18s, box-shadow 0.18s;
+  min-width: 120px;
+  box-sizing: border-box;
+
+  @media (max-width: 720px) {
+    width: 100%;
+  }
+}
+
+.input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #2563eb22;
+}
+
+.select {
+  padding: 7px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #f8fafc;
+  color: #22223b;
+  outline: none;
+  margin: 0 4px 0 0;
+  transition: border 0.18s, box-shadow 0.18s;
+  min-width: 120px;
+  box-sizing: border-box;
+
+  @media (max-width: 720px) {
+    width: 100%;
+  }
+}
+
+.select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #2563eb22;
+}
