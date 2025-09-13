@@ -6,7 +6,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const response = await fetch(`${API_URL}/users/${params.id}`);
+    const { id } = await params;
+    const response = await fetch(`${API_URL}/users/${id}`);
     if (!response.ok) {
       return NextResponse.json(
         { error: "Usuario no encontrado" },
@@ -28,8 +29,9 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const { id } = await params;
     const data = await req.json();
-    const response = await fetch(`${API_URL}/users/${params.id}`, {
+    const response = await fetch(`${API_URL}/users/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -55,7 +57,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const response = await fetch(`${API_URL}/users/${params.id}`, {
+    const { id } = await params;
+    const response = await fetch(`${API_URL}/users/${id}`, {
       method: "DELETE",
     });
     if (!response.ok) {

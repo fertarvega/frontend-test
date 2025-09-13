@@ -2,6 +2,10 @@
 
 Este proyecto es un dashboard de usuarios desarrollado en Next.js, TypeScript y SCSS Modules. Permite listar, crear, editar, filtrar y borrar usuarios, así como visualizar estadísticas básicas. Este proyecto es parte de una prueba técnica.
 
+## Resultado
+
+![Alt text](https://i.imgur.com/Fe49MRX.gif)
+
 ## Requisitos
 
 - Node.js 22
