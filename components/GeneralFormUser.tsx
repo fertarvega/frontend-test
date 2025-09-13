@@ -13,8 +13,14 @@ const initialState: Omit<IUser, "id" | "company" | "createdAt" | "updatedAt"> =
     companyId: "",
   };
 
-export default function GeneralFormUser({ type }: { type: "create" | "edit" }) {
-  const [form, setForm] = useState(initialState);
+export default function GeneralFormUser({
+  type,
+  dataToEdit,
+}: {
+  type: "create" | "update";
+  dataToEdit?: IUser;
+}) {
+  const [form, setForm] = useState(dataToEdit ?? initialState);
   const [companies, setCompanies] = useState<ICompany[]>([]);
   const [flow, setFlow] = useState<"default" | "loading" | "error" | "success">(
     "default"
@@ -48,12 +54,27 @@ export default function GeneralFormUser({ type }: { type: "create" | "edit" }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFlow("loading");
+    setError(null);
+
+    const payload = {
+      email: form.email,
+      name: form.name,
+      country: form.country,
+      age: form.age,
+      gender: form.gender,
+      phone: form.phone,
+      companyId: form.companyId,
+    };
 
     try {
-      const res = await fetch(`${API_URL}/users`, {
+      const url =
+        type === "create"
+          ? `${API_URL}/users`
+          : `${API_URL}/users/${dataToEdit && dataToEdit.id}`;
+      const res = await fetch(url, {
         method: type === "create" ? "POST" : "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -61,7 +82,7 @@ export default function GeneralFormUser({ type }: { type: "create" | "edit" }) {
         setError(data.error || "Error al crear usuario");
       } else {
         setFlow("success");
-        setForm(initialState);
+        if (type === "create") setForm(initialState);
       }
     } catch {
       setError("Error general al crear usuario");
@@ -77,7 +98,13 @@ export default function GeneralFormUser({ type }: { type: "create" | "edit" }) {
       {
         {
           error: <div>{error}</div>,
-          success: <div>Usuario creado exitosamente</div>,
+          success: (
+            <div>
+              {dataToEdit
+                ? "Usuario editado exitosamente"
+                : "Usuario creado exitosamente"}
+            </div>
+          ),
           loading: <div>Cargando...</div>,
           default: null,
         }[flow]
