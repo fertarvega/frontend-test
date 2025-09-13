@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dashboard de Usuarios (Frontend)
 
-## Getting Started
+Este proyecto es un dashboard de usuarios desarrollado en Next.js, TypeScript y SCSS Modules. Permite listar, crear, editar, filtrar y borrar usuarios, así como visualizar estadísticas básicas. Este proyecto es parte de una prueba técnica.
 
-First, run the development server:
+## Requisitos
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js 22
+- npm
+- Descargar y correr backend: https://github.com/fertarvega/backend-test
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Instalación
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clona este repositorio:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone <URL_DEL_REPO>
+   cd frontend
+   ```
 
-## Learn More
+2. Instala las dependencias:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Inicia el servidor de desarrollo:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npm run dev
+   # o
+   yarn dev
+   ```
 
-## Deploy on Vercel
+4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Backend
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este frontend está pensado para funcionar con un backend RESTful. Puedes usar el backend de ejemplo en el siguiente enlace:
+
+➡️ [https://github.com/fertarvega/backend-test]
+
+> **Nota:** En este proyecto utilicé el backend de Next.js (API routes) para demostrar habilidades del framework. Sin embargo, se puede modificar fácilmente el frontend para hacer las peticiones directamente al backend externo, eliminando la capa intermedia de Next.js si fuera necesario o más optimo.
+
+## Características
+
+- Listado de usuarios con paginación y filtros (nombre, email, empresa)
+- Creación, edición y borrado de usuarios
+- Modal para formularios
+- Validación en frontend
+- Mensajes de éxito/error
+- SCSS Modules y variables para estilos consistentes
+- Código claro, mantenible y fácil de adaptar
+
+## Scripts útiles
+
+- `npm run dev` — Inicia el servidor de desarrollo
+
+---
+
+Quedo atento a cualquier duda o comentario.
