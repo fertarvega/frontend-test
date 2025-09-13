@@ -27,8 +27,6 @@ Este proyecto es un dashboard de usuarios desarrollado en Next.js, TypeScript y 
 
    ```bash
    npm run dev
-   # o
-   yarn dev
    ```
 
 4. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
