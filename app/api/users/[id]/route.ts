@@ -1,13 +1,11 @@
+import { API_URL } from "@/helpers/consts";
 import { NextRequest, NextResponse } from "next/server";
 
-const API_URL = "http://localhost:3005/api/users/";
-
 export async function GET(
-  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const response = await fetch(`${API_URL}${params.id}`);
+    const response = await fetch(`${API_URL}/users/${params.id}`);
     if (!response.ok) {
       return NextResponse.json(
         { error: "Usuario no encontrado" },
@@ -30,7 +28,7 @@ export async function PUT(
 ) {
   try {
     const data = await req.json();
-    const response = await fetch(`${API_URL}${params.id}`, {
+    const response = await fetch(`${API_URL}/users/${params.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -52,11 +50,10 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const response = await fetch(`${API_URL}${params.id}`, {
+    const response = await fetch(`${API_URL}/users/${params.id}`, {
       method: "DELETE",
     });
     if (!response.ok) {

@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { IUser } from "@/interfaces/types";
+import { API_URL } from "@/helpers/consts";
 
-const API_URL = "http://localhost:3005/api/users/";
-
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}/users/`);
     const users: IUser[] = await response.json();
 
     if (!response.ok) {
@@ -46,7 +45,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(`${API_URL}/users/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),

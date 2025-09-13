@@ -1,5 +1,5 @@
 export interface ICompany {
-  id?: string;
+  id: string;
   name: string;
   industry: string;
   createdAt: Date;
@@ -7,7 +7,7 @@ export interface ICompany {
 }
 
 export interface IUser {
-  id?: string;
+  id: string;
   email: string;
   name: string;
   country: string;
@@ -15,7 +15,7 @@ export interface IUser {
   gender: string;
   phone: string;
   companyId: string;
-  company?: ICompany;
+  company: ICompany;
   createdAt: Date;
   updatedAt: Date;
 }
