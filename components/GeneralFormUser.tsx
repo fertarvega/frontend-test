@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { IUser, ICompany } from "@/interfaces/types";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useUsers } from "@/context/UsersContext";
+import { IUser } from "@/interfaces/types";
 import { API_URL } from "@/helpers/consts";
 
 const initialState: Omit<IUser, "id" | "company" | "createdAt" | "updatedAt"> =
@@ -21,28 +22,14 @@ export default function GeneralFormUser({
   dataToEdit?: IUser;
 }) {
   const [form, setForm] = useState(dataToEdit ?? initialState);
-  const [companies, setCompanies] = useState<ICompany[]>([]);
   const [flow, setFlow] = useState<"default" | "loading" | "error" | "success">(
     "default"
   );
   const [error, setError] = useState<string | null>(null);
-
-  const getCompanies = async () => {
-    try {
-      const res = await fetch(`${API_URL}/companies`, {
-        cache: "no-store",
-      });
-      const data = await res.json();
-      if (data) setCompanies(data);
-    } catch {
-      setCompanies([]);
-      setFlow("error");
-      setError("Error al cargar compañías");
-    }
-  };
+  const { getUsers, companies } = useUsers();
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({
@@ -51,7 +38,7 @@ export default function GeneralFormUser({
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setFlow("loading");
     setError(null);
@@ -83,15 +70,12 @@ export default function GeneralFormUser({
       } else {
         setFlow("success");
         if (type === "create") setForm(initialState);
+        await getUsers();
       }
     } catch {
       setError("Error general al crear usuario");
     }
   };
-
-  useEffect(() => {
-    getCompanies();
-  }, []);
 
   return (
     <form onSubmit={handleSubmit}>

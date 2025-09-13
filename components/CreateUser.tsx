@@ -1,7 +1,7 @@
 "use client";
 
-import Modal from "@/components/Modal";
 import { useState } from "react";
+import Modal from "@/components/Modal";
 import GeneralFormUser from "./GeneralFormUser";
 
 export function CreateUser() {

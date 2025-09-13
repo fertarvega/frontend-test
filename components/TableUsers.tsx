@@ -1,22 +1,11 @@
 "use client";
 
 import { API_URL } from "@/helpers/consts";
-import { IUser } from "@/interfaces/types";
-import { use, useEffect, useState } from "react";
+import { useUsers } from "@/context/UsersContext";
 import { UpdateUser } from "./UpdateUser";
 
 export default function TableUsers() {
-  const [users, setUsers] = useState<IUser[]>([]);
-
-  const getUsers = async () => {
-    try {
-      const res = await fetch(`${API_URL}/users`, { cache: "no-store" });
-      const data = await res.json();
-      setUsers(data);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
+  const { users, setUsers } = useUsers();
 
   const deleteUser = async (id: string) => {
     if (!window.confirm("¿Seguro que deseas borrar este usuario?")) return;
@@ -31,10 +20,6 @@ export default function TableUsers() {
       alert("Error de red al borrar usuario");
     }
   };
-
-  useEffect(() => {
-    getUsers();
-  }, []);
 
   return (
     <table>
