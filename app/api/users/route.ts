@@ -1,0 +1,69 @@
+import { NextRequest, NextResponse } from "next/server";
+import { IUser } from "@/interfaces/types";
+
+const API_URL = "http://localhost:3005/api/users/";
+
+export async function GET(req: NextRequest) {
+  try {
+    const response = await fetch(API_URL);
+    const users: IUser[] = await response.json();
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: "Error al obtener usuarios del servidor externo" },
+        { status: response.status }
+      );
+    }
+
+    return NextResponse.json(users, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Error al obtener usuarios" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const data = await req.json();
+
+    const requiredFields = [
+      "email",
+      "name",
+      "country",
+      "age",
+      "gender",
+      "phone",
+      "companyId",
+    ];
+    const missing = requiredFields.filter((field) => !data[field]);
+
+    if (missing.length > 0) {
+      return NextResponse.json(
+        { error: `Faltan campos requeridos: ${missing.join(", ")}` },
+        { status: 400 }
+      );
+    }
+
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: "Error al crear usuario en el servidor externo" },
+        { status: response.status }
+      );
+    }
+
+    return NextResponse.json(response, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Error al crear usuario" },
+      { status: 500 }
+    );
+  }
+}
