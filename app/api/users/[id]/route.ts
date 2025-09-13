@@ -2,6 +2,7 @@ import { API_URL } from "@/helpers/consts";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -50,6 +51,7 @@ export async function PUT(
 }
 
 export async function DELETE(
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
@@ -64,6 +66,8 @@ export async function DELETE(
     }
     return NextResponse.json({ message: "Usuario eliminado" }, { status: 200 });
   } catch (error) {
+    console.log(error);
+
     return NextResponse.json(
       { error: "Error al eliminar usuario" },
       { status: 500 }

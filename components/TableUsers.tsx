@@ -1,7 +1,6 @@
 "use client";
 
 import { ChangeEvent, useState } from "react";
-import { API_URL } from "@/helpers/consts";
 import { useUsers } from "@/context/UsersContext";
 import { UpdateUser } from "./UpdateUser";
 import { IFilters } from "@/interfaces/types";
@@ -19,9 +18,16 @@ export default function TableUsers() {
   const deleteUser = async (id: string) => {
     if (!window.confirm("¿Seguro que deseas borrar este usuario?")) return;
     try {
-      const res = await fetch(`${API_URL}/users/${id}`, { method: "DELETE" });
+      const res = await fetch(`/api/users/${id}`, { method: "DELETE" });
       if (res.ok) {
-        setUsers((prev) => prev.filter((u) => u.id !== id));
+        // setUsers((prev) => prev.filter((u) => u.id !== id));
+        getUsers({
+          page: paginationData.page,
+          rows: paginationData.rows,
+          email: filters.email || undefined,
+          name: filters.name || undefined,
+          company: filters.company || undefined,
+        });
       } else {
         alert("Error al borrar usuario");
       }

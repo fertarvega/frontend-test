@@ -10,7 +10,6 @@ import React, {
   useEffect,
 } from "react";
 import { ICompany, IPaginationUsers, IUser } from "@/interfaces/types";
-import { API_URL } from "@/helpers/consts";
 
 interface UsersContextProps {
   users: IUser[];
@@ -62,7 +61,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
       company?: string;
     }) => {
       try {
-        let url = `${API_URL}/users`;
+        let url = `/api/users`;
         if (filters) {
           const params = new URLSearchParams();
           params.append("page", filters.page.toString());
@@ -90,7 +89,7 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getCompanies = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/companies`, {
+      const res = await fetch(`/api/companies`, {
         cache: "no-store",
       });
       const data = await res.json();

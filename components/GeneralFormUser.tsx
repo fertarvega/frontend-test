@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useUsers } from "@/context/UsersContext";
 import { IUser } from "@/interfaces/types";
-import { API_URL } from "@/helpers/consts";
 
 const initialState: Omit<IUser, "id" | "company" | "createdAt" | "updatedAt"> =
   {
@@ -79,8 +78,8 @@ export default function GeneralFormUser({
     try {
       const url =
         type === "create"
-          ? `${API_URL}/users`
-          : `${API_URL}/users/${dataToEdit && dataToEdit.id}`;
+          ? `/api/users`
+          : `/api/users/${dataToEdit && dataToEdit.id}`;
       const res = await fetch(url, {
         method: type === "create" ? "POST" : "PUT",
         headers: { "Content-Type": "application/json" },

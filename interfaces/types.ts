@@ -33,3 +33,13 @@ export interface IFilters {
   name?: string;
   company?: string;
 }
+
+export interface IChartCompanyData {
+  company: string;
+  count: number;
+}
+
+export interface IChartCountryData {
+  country: string;
+  count: number;
+}
