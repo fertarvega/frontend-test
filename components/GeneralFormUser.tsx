@@ -1,6 +1,8 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import inputStyles from "@/styles/inputs.module.scss";
 import { useUsers } from "@/context/UsersContext";
 import { IUser } from "@/interfaces/types";
+import formStyles from "@/styles/form.module.scss";
 
 const initialState: Omit<IUser, "id" | "company" | "createdAt" | "updatedAt"> =
   {
@@ -103,7 +105,8 @@ export default function GeneralFormUser({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={formStyles.form}>
+      <h3>Crear usuario</h3>
       {
         {
           error: <div>{error}</div>,
@@ -118,9 +121,10 @@ export default function GeneralFormUser({
           default: null,
         }[flow]
       }
-      <div>
+      <div className={formStyles["form-input"]}>
         <label>Email:</label>
         <input
+          className={inputStyles.input}
           name="email"
           value={form.email}
           onChange={handleChange}
@@ -128,22 +132,30 @@ export default function GeneralFormUser({
           type="email"
         />
       </div>
-      <div>
+      <div className={formStyles["form-input"]}>
         <label>Nombre:</label>
-        <input name="name" value={form.name} onChange={handleChange} required />
+        <input
+          className={inputStyles.input}
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
       </div>
-      <div>
+      <div className={formStyles["form-input"]}>
         <label>País:</label>
         <input
+          className={inputStyles.input}
           name="country"
           value={form.country}
           onChange={handleChange}
           required
         />
       </div>
-      <div>
+      <div className={formStyles["form-input"]}>
         <label>Edad:</label>
         <input
+          className={inputStyles.input}
           name="age"
           type="number"
           value={form.age}
@@ -152,9 +164,10 @@ export default function GeneralFormUser({
           min={0}
         />
       </div>
-      <div>
+      <div className={formStyles["form-input"]}>
         <label>Género:</label>
         <select
+          className={inputStyles.select}
           name="gender"
           value={form.gender}
           onChange={handleChange}
@@ -166,9 +179,10 @@ export default function GeneralFormUser({
           <option value="Otro">Otro</option>
         </select>
       </div>
-      <div>
+      <div className={formStyles["form-input"]}>
         <label>Teléfono:</label>
         <input
+          className={inputStyles.input}
           name="phone"
           value={form.phone}
           onChange={handleChange}
@@ -177,9 +191,10 @@ export default function GeneralFormUser({
           minLength={7}
         />
       </div>
-      <div>
+      <div className={formStyles["form-input"]}>
         <label>Compañía:</label>
         <select
+          className={inputStyles.select}
           name="companyId"
           value={form.companyId}
           onChange={handleChange}
@@ -193,7 +208,12 @@ export default function GeneralFormUser({
           ))}
         </select>
       </div>
-      <button type="submit" disabled={flow === "loading"}>
+      <button
+        type="submit"
+        className={`${inputStyles.btn} ${inputStyles["btn-success"]}`}
+        disabled={flow === "loading"}
+        style={{ float: "inline-end", marginTop: "16px" }}
+      >
         Guardar
       </button>
     </form>

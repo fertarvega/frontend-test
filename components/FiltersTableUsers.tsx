@@ -33,35 +33,47 @@ export default function FiltersTableUsers({
 
   return (
     <form onSubmit={handleFilter} className={filterStyles["filters-container"]}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Fernando Tarango"
-        value={filters.name}
-        onChange={handleFilterChange}
-        className={inputStyles.input}
-      />
-      <input
-        type="text"
-        name="email"
-        placeholder="fertar@gmail.com"
-        value={filters.email}
-        onChange={handleFilterChange}
-        className={inputStyles.input}
-      />
-      <select
-        name="company"
-        value={filters.company}
-        onChange={handleFilterChange}
-        className={inputStyles.select}
-      >
-        <option value="">Todas las empresas</option>
-        {companies.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
-      </select>
+      <div className={filterStyles["filters-inputs"]}>
+        <label htmlFor="filter-name">Nombre:</label>
+        <input
+          id="filter-name"
+          type="text"
+          name="name"
+          placeholder="Fernando Tarango"
+          value={filters.name}
+          onChange={handleFilterChange}
+          className={inputStyles.input}
+        />
+      </div>
+      <div className={filterStyles["filters-inputs"]}>
+        <label htmlFor="filter-email">Email:</label>
+        <input
+          id="filter-email"
+          type="text"
+          name="email"
+          placeholder="fertar@gmail.com"
+          value={filters.email}
+          onChange={handleFilterChange}
+          className={inputStyles.input}
+        />
+      </div>
+      <div className={filterStyles["filters-inputs"]}>
+        <label htmlFor="filter-company">Empresa:</label>
+        <select
+          id="filter-company"
+          name="company"
+          value={filters.company}
+          onChange={handleFilterChange}
+          className={inputStyles.select}
+        >
+          <option value="">Todas las empresas</option>
+          {companies.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <button
         type="submit"
         className={`${inputStyles.btn} ${inputStyles["btn-primary"]}`}

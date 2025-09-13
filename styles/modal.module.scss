@@ -14,10 +14,15 @@
 .modal {
   background: #fff;
   border-radius: 8px;
-  padding: 2rem 1.5rem;
-  min-width: 320px;
+  padding: 1.5rem;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
   position: relative;
+  min-width: 450px;
+
+  @media (max-width: 720px) {
+    width: 300px;
+    min-width: 300px;
+  }
 }
 
 .modal-close {

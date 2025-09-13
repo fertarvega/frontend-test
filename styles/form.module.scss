@@ -1,0 +1,33 @@
+.form {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+
+  h3 {
+    margin: 0 0 8px 0;
+  }
+}
+
+.form-input {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+
+  input,
+  select {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  label {
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: #22223b;
+    min-width: 110px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+}

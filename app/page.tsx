@@ -27,14 +27,14 @@ export default function Page() {
           <BarChartComponent
             yLabel={"Numero de usuarios"}
             seriesLabel={"Usuarios"}
-            color={"red"}
+            color={"#f5ab42"}
             datasetUrl={"/api/charts/company"}
             dataKeyName={"company"}
           />
           <BarChartComponent
             yLabel={"Numero de usuarios"}
             seriesLabel={"Usuarios"}
-            color={"blue"}
+            color={"#d0d530"}
             datasetUrl={"/api/charts/country"}
             dataKeyName={"country"}
           />
