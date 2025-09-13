@@ -1,0 +1,27 @@
+.header-banner {
+  width: 100%;
+  background: white;
+  padding: 18px 0 14px 0;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.04);
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+
+.header-content {
+  gap: 18px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  padding: 4px;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #22223b;
+  letter-spacing: 0.01em;
+  font-family: "Roboto Mono", monospace;
+}

@@ -171,7 +171,12 @@ export default function TableUsers() {
                 tabIndex={paginationData.page === 1 ? -1 : 0}
                 aria-disabled={paginationData.page === 1}
               >
-                <Image width={16} height={16} src="/left-arrow.svg" alt="Borrar" />
+                <Image
+                  width={16}
+                  height={16}
+                  src="/left-arrow.svg"
+                  alt="Borrar"
+                />
               </button>
               <span>
                 Página {paginationData.page} de {paginationData.totalPages}
@@ -200,13 +205,15 @@ export default function TableUsers() {
                         paginationData.total
                 }
               >
-                <Image width={16} height={16} src="/right-arrow.svg" alt="Borrar" />
+                <Image
+                  width={16}
+                  height={16}
+                  src="/right-arrow.svg"
+                  alt="Borrar"
+                />
               </button>
             </div>
             <div className={`${styles["table-footer-section"]}`}>
-              <span style={{ marginLeft: 16 }}>
-                Total: {paginationData?.total || users.length} usuarios
-              </span>
               <select
                 style={{ marginLeft: 8 }}
                 onChange={handleRowsChange}
@@ -218,6 +225,9 @@ export default function TableUsers() {
                 <option value="25">25</option>
                 <option value="50">50</option>
               </select>
+              <span style={{ marginLeft: 16 }}>
+                Total: {paginationData?.total || users.length} usuarios
+              </span>
             </div>
           </div>
         </>
