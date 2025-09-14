@@ -3,6 +3,8 @@
 import { BarChart } from "@mui/x-charts/BarChart";
 import { Suspense, useEffect, useState } from "react";
 import { useUsers } from "@/context/UsersContext";
+import Message from "./Message";
+import Spinner from "./Spinner";
 
 interface IBarChartComponentProps {
   yLabel: string;
@@ -19,7 +21,7 @@ export function BarChartComponent({
   datasetUrl,
   dataKeyName,
 }: IBarChartComponentProps) {
-  const { users } = useUsers();
+  const { users, flow } = useUsers();
   const [chartData, setChartData] = useState([]);
 
   const chartSetting = {
@@ -54,11 +56,19 @@ export function BarChartComponent({
 
   return (
     <Suspense>
-      <BarChart
-        dataset={chartData}
-        xAxis={[{ dataKey: dataKeyName, tickPlacement, tickLabelPlacement }]}
-        {...chartSetting}
-      />
+      {chartData && chartData.length > 0 && (
+        <BarChart
+          dataset={chartData}
+          xAxis={[{ dataKey: dataKeyName, tickPlacement, tickLabelPlacement }]}
+          {...chartSetting}
+        />
+      )}
+      {flow === "error" && (
+        <Message type={"danger"}>
+          No se pudo cargar la información de la tabla
+        </Message>
+      )}
+      {flow === "loading" && <Spinner />}
     </Suspense>
   );
 }

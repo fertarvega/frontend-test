@@ -92,7 +92,7 @@ export default function FiltersTableUsers({
             className={inputStyles.select}
           >
             <option value="">Todas las empresas</option>
-            {companies.map((item) => (
+            {companies?.length > 0 && companies?.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
               </option>

@@ -11,6 +11,7 @@ import Message from "./Message";
 import Spinner from "./Spinner";
 import Modal from "./Modal";
 import GeneralFormUser from "./GeneralFormUser";
+import { error } from "console";
 
 export default function TableUsers() {
   const { users, getUsers, paginationData, flow } = useUsers();
@@ -24,6 +25,7 @@ export default function TableUsers() {
     text: string;
   } | null>(null);
   const [dataToEdit, setDataToEdit] = useState<IUser>();
+console.log(flow);
 
   const deleteUser = async (id: string) => {
     if (!window.confirm("¿Seguro que deseas borrar este usuario?")) return;
@@ -119,7 +121,7 @@ export default function TableUsers() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
+                {users?.map((user) => (
                   <tr key={user.id}>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
@@ -226,7 +228,7 @@ export default function TableUsers() {
                 <option value="50">50</option>
               </select>
               <span style={{ marginLeft: 16 }}>
-                Total: {paginationData?.total || users.length} usuarios
+                Total: {paginationData?.total || users?.length} usuarios
               </span>
             </div>
           </div>

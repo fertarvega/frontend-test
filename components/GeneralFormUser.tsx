@@ -202,7 +202,7 @@ export default function GeneralFormUser({
               required
             >
               <option value="">Seleccione una compañía</option>
-              {companies.map((c) => (
+              {companies?.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
                 </option>

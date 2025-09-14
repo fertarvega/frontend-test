@@ -11,7 +11,6 @@ import React, {
 } from "react";
 import { ICompany, IPaginationUsers, IUser } from "@/interfaces/types";
 import Message from "@/components/Message";
-import Spinner from "@/components/Spinner";
 
 interface UsersContextProps {
   users: IUser[];
@@ -75,7 +74,11 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
           if (filters.company) params.append("company", filters.company);
           url += `?${params.toString()}`;
         }
+
         const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok)
+          throw new Error("No se pudo obtener la información de los usuarios");
+
         const data: IPaginationUsers = await res.json();
         setUsers(data.users);
         setPaginationData({
@@ -86,9 +89,10 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
         });
         setFlow("default");
       } catch (error) {
+        console.log(error);
+
         setUsers([]);
         setFlow("error");
-
         setError(
           "Error al obtener datos, verifique su conexión e intente de nuevo."
         );
@@ -102,6 +106,9 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
       const res = await fetch(`/api/companies`, {
         cache: "no-store",
       });
+      if (!res.ok)
+        throw new Error("No se pudo obtener la información de las compañias");
+
       const data = await res.json();
       if (data) setCompanies(data);
     } catch {
@@ -118,7 +125,6 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
     setError(null);
     try {
       await Promise.all([getUsers({ page: 1, rows: 10 }), getCompanies()]);
-      setFlow("default");
     } catch (error) {
       setFlow("error");
       setError(
@@ -130,6 +136,8 @@ export const UsersProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     getData();
   }, []);
+
+  console.log(error);
 
   return (
     <UsersContext.Provider
